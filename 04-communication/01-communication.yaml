@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: comm-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: comm-server
+  template:
+    metadata:
+      name: comm-server-pod
+      labels:
+        app: comm-server
+    spec:
+      # Defines available volumes
+      volumes:
+      - name: html-root
+        emptyDir: { }
+
+      containers:
+      # Serves static pages from /usr/share/nginx/html
+      - name: nginx
+        image: docker.ops.iszn.cz/upstream/nginx/nginx:1.21.1
+        # Mounts html-root into /usr/share/nginx/html in the container
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: html-root
+
+      # Generates static pages with counter
+      - name: data-generator
+        imagePullPolicy: Always
+        image: docker.ops.iszn.cz/jan.drazil/k8sdemo/data-generator:v1
+        # Mounts html-root into /data in the container
+        volumeMounts:
+          - mountPath: /data
+            name: html-root
+
+      # Logs pages served by nginx
+      - name: local-client
+        imagePullPolicy: Always
+        image: docker.ops.iszn.cz/jan.drazil/k8sdemo/http-client:v1
+
+---
+
+# Expose the deployment into k8s for others pods
+apiVersion: v1
+kind: Service
+metadata:
+  name: comm-demo
+spec:
+  selector:
+    app: comm-server
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: comm-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: comm-client
+  template:
+    metadata:
+      name: comm-client
+      labels:
+        app: comm-client
+    spec:
+      containers:
+      # Log pages served by nginx running in another pod
+      - name: local-client
+        imagePullPolicy: Always
+        image: docker.ops.iszn.cz/jan.drazil/k8sdemo/http-client:v1
+        env:
+          - name: TARGET
+            value: comm-demo
+
+---
+
+# Expose the service to client outside from k8s (for debug or very low traffic only)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: comm
+spec:
+  rules:
+  - host: hello.dev.k8s.cileni.dszn.cz
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: comm-demo
+            port:
+              name: http

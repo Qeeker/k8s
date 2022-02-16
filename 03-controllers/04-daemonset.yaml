@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: my-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: counter
+  template:
+    metadata:
+      name: counter-pod
+      labels:
+        app: counter
+    spec:
+      containers:
+      - name: counter-container
+        image: docker.ops.iszn.cz/jan.drazil/k8sdemo/counter:v1

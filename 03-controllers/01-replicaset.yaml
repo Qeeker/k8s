@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: my-replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: counter-rs
+  template:
+    metadata:
+      name: counter-pod
+      labels:
+        app: counter-rs
+    spec:
+      containers:
+      - name: counter-container
+        image: docker.ops.iszn.cz/jan.drazil/k8sdemo/counter:v1

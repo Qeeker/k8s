@@ -1,0 +1,19 @@
+# Labrador service
+apiVersion: v1
+kind: Service
+metadata:
+  name: comm-demo-labrador
+  annotations:
+    szn.labrador: enabled
+    szn.labrador.network-policy: allow-office
+    szn.labrador.template/http: http
+  labels:
+    app: comm-server-labrador
+spec:
+  selector:
+    app: comm-server
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  loadBalancerIP: 10.32.252.79

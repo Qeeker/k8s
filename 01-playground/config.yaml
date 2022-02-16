@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:
+    certificate-authority-data: <CERTIFICATE>
+    server: https://user-profile-dev.ko.k8s.scif.cz:6443
+  name: user-profile-dev.ko
+contexts:
+- context:
+    cluster: user-profile-dev.ko
+    namespace: cileni-dev
+    user: jan.drazil@firma.seznam.cz
+users:
+- name: jan.drazil@firma.seznam.cz
+  user:
+    token: <SECRET_TOKEN>
+current-context: user-profile-dev.ko
