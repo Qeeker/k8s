@@ -1,6 +1,6 @@
-import time
 import signal
 import sys
+import time
 
 
 def sig_handler(signum, frame):

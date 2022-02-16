@@ -33,8 +33,8 @@ spec:
         image: docker.ops.iszn.cz/jan.drazil/k8sdemo/data-generator:v1
         # Mounts html-root into /data in the container
         volumeMounts:
-          - mountPath: /data
-            name: html-root
+        - mountPath: /data
+          name: html-root
 
       # Logs pages served by nginx
       - name: local-client
@@ -79,8 +79,8 @@ spec:
         imagePullPolicy: Always
         image: docker.ops.iszn.cz/jan.drazil/k8sdemo/http-client:v1
         env:
-          - name: TARGET
-            value: comm-demo
+        - name: TARGET
+          value: comm-demo
 
 ---
 

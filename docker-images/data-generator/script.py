@@ -1,8 +1,8 @@
-import time
 import signal
-import sys
-from pathlib import Path
 import socket
+import sys
+import time
+from pathlib import Path
 
 
 def sig_handler(signum, frame):

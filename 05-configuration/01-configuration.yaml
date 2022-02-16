@@ -9,7 +9,7 @@ data:
       listen       81;
       listen  [::]:81;
       server_name  localhost;
-  
+    
       location / {
           expires -1;
           root   /usr/share/nginx/secrets;
