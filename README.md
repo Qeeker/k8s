@@ -12,7 +12,7 @@
 
 * cgroups
     * Omezují zdroje pro skupinu procesů.
-    * Například množství RAM, vCPU, počet otevřených souborů...
+    * Například množství RAM, vCPU, přístup k blokovým zařízením...
     * V k8s se typicky vážou na kontejner.
 * namespace
     * Izolace skupin procesů
@@ -119,7 +119,7 @@
     * Potřeba záznam v DNS manageru
         * V user-profile-dev.ko např. `hello.dev.k8s.cileni.dszn.cz CNAME user-profile-dev.ko.k8s.scif.cz`
     * Vhodné pro debug interních služeb, nebo služby s velmi nízkým provozem (např. web interface Arga)
-    
+
 * [Labrador](04-communication/01-communication-labrador.yaml)
     * Vyžaduje alokaci IP adresy
         * V provozu od adminů
