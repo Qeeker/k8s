@@ -21,6 +21,12 @@ data:
         default_type text/plain;
         return 200 "${SECRET_ENV}";
       }
+    
+      location = /sasanka {
+        expires -1;
+        default_type text/plain;
+        return 200 "${SASANKA_SECRET}";
+      }
     }
 
 ---
@@ -33,11 +39,17 @@ metadata:
 type: Opaque
 stringData:
   secretEnv: "Foo Bar\\n"
-  secretPage: "<h1>Secret Page</h1><a href=\"/secret\">Env Secret</a>"
+  secretPage: "<h1>Secret Page</h1><a href=\"/secret\">Env Secret</a><br/><a href=\"/sasanka\">Env Sasanka Secret</a>"
 
 ---
 
 # Deployment with nginx exposing secrets
+
+# REQUIRES secret from sasanka
+# secret name: sasanka-secret
+# secret values:
+# - token
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -79,6 +91,12 @@ spec:
             secretKeyRef:
               name: server-secret
               key: secretEnv
+        # Set environment from secrets synced through sasanka
+        - name: SASANKA_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: sasanka-secret
+              key: token
         volumeMounts:
         # Mount volume specified in volumes with nginx config
         - name: secret-interface

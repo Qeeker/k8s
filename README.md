@@ -119,6 +119,7 @@
     * Potřeba záznam v DNS manageru
         * V user-profile-dev.ko např. `hello.dev.k8s.cileni.dszn.cz CNAME user-profile-dev.ko.k8s.scif.cz`
     * Vhodné pro debug interních služeb, nebo služby s velmi nízkým provozem (např. web interface Arga)
+    
 * [Labrador](04-communication/01-communication-labrador.yaml)
     * Vyžaduje alokaci IP adresy
         * V provozu od adminů
@@ -128,6 +129,9 @@
       specifické [anotace](https://gitlab.seznam.net/ultra/SCIF/labrador/documentation/-/blob/master/kubernetes_reference.md)
     * Potřeba záznam v DNS manageru
         * Záznam na konkrétní IP adresu, např. `hello-labrador.dev.k8s.cileni.dszn.cz A 10.32.252.79`
+    * TLS stačí vygenerovat v [TLS manageru](https://tls.seznam.net/ca/)
+      * V produkci žádají admini
+      * Pro dev je možné zažádat přímo o cert podepsaná [Seznam CA](https://tls.seznam.net/ca/13/)
 
 ## 05 Konfigurace
 
