@@ -9,19 +9,19 @@ data:
       listen       81;
       listen  [::]:81;
       server_name  localhost;
-    
+
       location / {
           expires -1;
           root   /usr/share/nginx/secrets;
           index  secrets.html;
       }
-    
+
       location = /secret {
         expires -1;
         default_type text/plain;
         return 200 "${SECRET_ENV}";
       }
-    
+
       location = /sasanka {
         expires -1;
         default_type text/plain;
@@ -31,7 +31,7 @@ data:
 
 ---
 
-# Kubernetes secret propagated into nginx conf file and as standalone file
+# Kubernetes secret propagated into nginx conf file as a standalone file
 apiVersion: v1
 kind: Secret
 metadata:

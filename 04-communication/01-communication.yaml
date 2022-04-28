@@ -91,7 +91,7 @@ metadata:
   name: comm
 spec:
   rules:
-  - host: hello.dev.k8s.cileni.dszn.cz
+  - host: hello-drazil.demo.cileni.dszn.cz
     http:
       paths:
       - path: /
