@@ -116,9 +116,9 @@
 
 * Ingress
     * Nečastěji se jedná o NGINX, který je běží v kubernetu
-    * Provoz na servicy směčuje podle doménového jména
+    * Provoz na servicy směruje podle doménového jména
     * Potřeba záznam v DNS manageru
-        * V user-profile-dev.ko např. `hello.dev.k8s.cileni.dszn.cz CNAME user-profile-dev.ko.k8s.scif.cz`
+        * V cileni-dev.oa např. `hello-drazil.demo.cileni.dszn.cz CNAME cileni-dev.oa.k8s.scif.cz`, zaškrtnout `Without PTR`
     * Vhodné pro debug interních služeb, nebo služby s velmi nízkým provozem (např. web interface Arga)
 
 * [Labrador](04-communication/01-communication-labrador.yaml)
