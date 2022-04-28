@@ -20,14 +20,15 @@
     * V k8s se některé aplikují na pod a některé na kontejner
 
 ## 01 Příprava pískoviště
-
+* Nainstalovat kubectl
+    * https://kubernetes.io/docs/tasks/tools/
 * Přihlásit se na `user-profile.dev`
     * `kube-login all`
     * https://gitlab.seznam.net/ultra/SCIF/k8s/kube-login/-/releases
 * Vytvořit namespace
     * `kubectl apply -f 01-playground/namespace.yaml`
 * Natavit namespace jako výchozí
-    * `kubectx`, `kubens`
+    * [`kubectx`, `kubens`](https://github.com/ahmetb/kubectx)
 
 ## 02 Pod
 
