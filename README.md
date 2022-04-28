@@ -22,7 +22,7 @@
 ## 01 Příprava pískoviště
 * Nainstalovat kubectl
     * https://kubernetes.io/docs/tasks/tools/
-* Přihlásit se na `user-profile.dev`
+* Přihlásit se na `cileni-dev.oa`
     * `kube-login all`
     * https://gitlab.seznam.net/ultra/SCIF/k8s/kube-login/-/releases
 * Vytvořit namespace
