@@ -22,10 +22,17 @@ data:
         return 200 "${SECRET_ENV}";
       }
 
-      location = /sasanka {
+      location = /sasanka-env {
         expires -1;
         default_type text/plain;
         return 200 "${SASANKA_SECRET}";
+      }
+
+      location /sasanka-file {
+        expires -1;
+        default_type text/plain;
+        alias /usr/share/nginx/sasanka;
+        index  sasanka.txt;
       }
     }
 
@@ -39,7 +46,7 @@ metadata:
 type: Opaque
 stringData:
   secretEnv: "Foo Bar\\n"
-  secretPage: "<h1>Secret Page</h1><a href=\"/secret\">Env Secret</a><br/><a href=\"/sasanka\">Env Sasanka Secret</a>"
+  secretPage: "<h1>Secret Page</h1><a href=\"/secret\">Env Secret</a><br/><a href=\"/sasanka-env\">Env Sasanka Secret</a><br/><a href=\"/sasanka-file/\">File Sasanka Secret</a>"
 
 ---
 
@@ -80,6 +87,13 @@ spec:
           items:
           - key: secretPage
             path: secrets.html
+      # Creates a volume with secret synced with sasanka
+      - name: sasanka
+        secret:
+          secretName: sasanka-secret
+          items:
+          - key: token
+            path: sasanka.txt
 
       containers:
       - name: nginx
@@ -104,6 +118,9 @@ spec:
         # Mount volume specified in volumes with secret page
         - name: secrets
           mountPath: /usr/share/nginx/secrets
+        # Mount volume specified in volumes with token from sasanka
+        - name: sasanka
+          mountPath: /usr/share/nginx/sasanka
 
 ---
 
@@ -116,7 +133,26 @@ spec:
   selector:
     app: config-server
   ports:
-  - name: http
-    port: 80
   - name: secret
     port: 81
+
+---
+
+# Expose the service to client outside from k8s (for debug or very low traffic only)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: comm
+spec:
+  rules:
+  - host: config-drazil.demo.cileni.dszn.cz
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: config-demo-server
+            port:
+              name: secret
+

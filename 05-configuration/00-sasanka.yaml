@@ -1,4 +1,11 @@
 # Prepare environment for syncing data from Sasanka
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sasanka-sync
+  namespace: my-namespace
+
+---
 
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -11,13 +18,5 @@ roleRef:
   name: secrets-manager
 subjects:
 - kind: ServiceAccount
-  name: sasanka-sync
-  namespace: my-namespace
-
----
-
-apiVersion: v1
-kind: ServiceAccount
-metadata:
   name: sasanka-sync
   namespace: my-namespace

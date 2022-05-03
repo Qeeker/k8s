@@ -4,3 +4,8 @@ resources:
 - ../base
 patches:
 - overlay.yaml
+configMapGenerator:
+  - name: app-config
+    behavior: merge
+    envs:
+    - overlay.env
