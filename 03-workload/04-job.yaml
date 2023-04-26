@@ -1,11 +1,11 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: my-job
+  name: dump-job
 spec:
   template:
     spec:
       restartPolicy: OnFailure
       containers:
       - name: counter-container
-        image: docker.ops.iszn.cz/jan.drazil/k8sdemo/dump-env:v1
+        image: dump-env:one-shot

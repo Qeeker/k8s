@@ -1,4 +1,4 @@
-FROM docker.ops.iszn.cz/baseimage/debian-python3:bullseye
+FROM python:bullseye
 
 ENV FILE_COMMON=dockerfile-common
 ENV DEPLOYMENT_ENV=dockerfile-deployment-env

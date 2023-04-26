@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: environment-dumper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: environment-dumper
+  template:
+    metadata:
+      name: environment-dumper
+      labels:
+        app: environment-dumper
+    spec:
+      containers:
+      - name: dumper-container
+        image: dump-env:continuous
+        env:
+        - name: OWNER
+          value: Tady je Honzovo

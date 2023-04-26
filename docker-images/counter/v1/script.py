@@ -1,9 +1,11 @@
+import random
 import signal
 import sys
 import time
 
 
 def sig_handler(signum, frame):
+    time.sleep(random.randint(10, 60))
     sys.exit(0)
 
 

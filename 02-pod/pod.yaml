@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: my-pod
+  name: counters
 spec:
   containers:
   - name: counter-containerv1
-    image: docker.ops.iszn.cz/jan.drazil/k8sdemo/counter:v1
+    image: counter:v1
   - name: counter-containerv2
-    image: docker.ops.iszn.cz/jan.drazil/k8sdemo/counter:v2
+    image: counter:v2

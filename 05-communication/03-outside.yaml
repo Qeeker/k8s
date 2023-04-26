@@ -21,7 +21,7 @@ spec:
       containers:
       # Serves static pages from /usr/share/nginx/html
       - name: nginx
-        image: docker.ops.iszn.cz/upstream/nginx/nginx:1.21.1
+        image: nginx:1.21.1
         # Mounts html-root into /usr/share/nginx/html in the container
         volumeMounts:
         - mountPath: /usr/share/nginx/html
@@ -29,8 +29,7 @@ spec:
 
       # Generates static pages with counter
       - name: data-generator
-        imagePullPolicy: Always
-        image: docker.ops.iszn.cz/jan.drazil/k8sdemo/data-generator:v1
+        image: data-generator:v1
         # Mounts html-root into /data in the container
         volumeMounts:
         - mountPath: /data
@@ -38,8 +37,10 @@ spec:
 
       # Logs pages served by nginx
       - name: local-client
-        imagePullPolicy: Always
-        image: docker.ops.iszn.cz/jan.drazil/k8sdemo/http-client:v1
+        image: http-client:v1
+        env:
+        - name: TARGET
+          value: localhost
 
 ---
 
@@ -47,7 +48,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: comm-demo
+  name: web-server
 spec:
   selector:
     app: comm-server
@@ -76,28 +77,26 @@ spec:
       containers:
       # Log pages served by nginx running in another pod
       - name: local-client
-        imagePullPolicy: Always
-        image: docker.ops.iszn.cz/jan.drazil/k8sdemo/http-client:v1
+        image: http-client:v1
         env:
         - name: TARGET
           value: comm-demo
 
 ---
 
-# Expose the service to client outside from k8s (for debug or very low traffic only)
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: comm
 spec:
   rules:
-  - host: hello-drazil.demo.cileni.dszn.cz
+  - host: communication.k8s
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: comm-demo
+            name: web-server
             port:
               name: http
